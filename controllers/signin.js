@@ -1,8 +1,10 @@
 const handleSignin = (db, bcrypt) => (req, res) => {
   const { email, password } = req.body;
 
+  var regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+
   if (!email || !password) {
-    return res.status(400).json("Please fill all fields");
+    return res.status(400).json("Couldn't signin.");
   }
 
   db.select("email", "hash")
@@ -23,7 +25,7 @@ const handleSignin = (db, bcrypt) => (req, res) => {
         res.status(400).json("Incorrect email or password");
       }
     })
-    .catch((err) => res.status(400).json("Incorrect email or password"));
+    .catch((err) => res.status(400).json("Couldn't signin."));
 };
 
 module.exports = {
